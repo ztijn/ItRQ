@@ -44,6 +44,11 @@ def result_data():
     data_val = []
     data_que = []
 
+    total_long = 0
+    total_short = 0
+    long_counter = 0
+    short_counter = 0
+
     with open('JEOPARDY.csv') as csvfile:
         data = csv.reader(csvfile, delimiter=',')
         for row in data:
@@ -70,19 +75,29 @@ def result_data():
                 if val > 490:
                     if que_len > 16:
                         diff_long += 1
+                        total_long += val
+                        long_counter += 1
                     else:
                         diff_short += 1
+                        total_short += val
+                        short_counter += 1
                 else:
                     if que_len > 16:
                         easy_long += 1
+                        total_long += val
+                        long_counter += 1
                     else:
                         easy_short += 1
+                        total_short += val
+                        short_counter += 1
 
     #make a graph
     makeplot(data_que, data_val)
 
     #print values for the confusion matrix
     print("diff_long:", diff_long, "\ndiff_short:", diff_short, "\neasy_long:", easy_long, "\neasy_short:", easy_short)
+
+    print("avg val long:", (total_long/long_counter), "\navg val short:", (total_short/short_counter))
 
 
 
